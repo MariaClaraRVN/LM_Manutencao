@@ -34,7 +34,7 @@ export const generatePDF = async (cliente: Cliente, itens: Item[], total: number
    */
   
   // Load and add the company logo
-  const logoUrl = 'https://images.pexels.com/photos/257886/pexels-photo-257886.jpeg'
+  const logoUrl = `${window.location.origin}/LM_Manutencoes.png`
   const response = await fetch(logoUrl)
   const blob = await response.blob()
   
@@ -47,45 +47,45 @@ export const generatePDF = async (cliente: Cliente, itens: Item[], total: number
   const logoData = reader.result as string
   
   // Add the logo to the PDF
-  doc.addImage(logoData, 'JPEG', 65, 10, 80, 60)
+  doc.addImage(logoData, 'PNG', 75, 0, 80, 60)
   
   // Set font size and add company header
-  doc.setFontSize(20)
-  doc.text('L⚡M Manutenções', 105, 80, { align: 'center' })
+  //doc.setFontSize(20)
+  //doc.text('L⚡M Manutenções', 105, 80, { align: 'center' })
   
   // Add company contact information
-  doc.setFontSize(10)
+  /* doc.setFontSize(10)
   doc.text('Email: lincoln.manutencoes@gmail.com', 105, 88, { align: 'center' })
-  doc.text('Telefone: (11) 4002-8922', 105, 94, { align: 'center' })
+  doc.text('Telefone: (11) 4002-8922', 105, 94, { align: 'center' }) */
   
   // Add document title
   doc.setFontSize(16)
-  doc.text('Orçamento Comercial', 105, 105, { align: 'center' })
+  doc.text('Orçamento Comercial', 105, 70, { align: 'center' }) // era 105
   
   // Add creation date
   const dataAtual = new Date().toLocaleDateString('pt-BR')
   doc.setFontSize(10)
-  doc.text(`Data: ${dataAtual}`, 190, 112, { align: 'right' })
+  doc.text(`Data: ${dataAtual}`, 190, 77, { align: 'right' }) // era 112
   
   // Add client information section
   doc.setFontSize(12)
-  doc.text('Dados do Cliente', 14, 120)
+  doc.text('Dados do Cliente', 14, 85) // era 120
   
   doc.setFontSize(10)
-  doc.text(`Empresa: ${cliente.nomeEmpresa}`, 14, 128)
-  doc.text(`CNPJ: ${cliente.cnpj}`, 14, 134)
+  doc.text(`Empresa: ${cliente.nomeEmpresa}`, 14, 93) // era 128
+  doc.text(`CNPJ: ${cliente.cnpj}`, 14, 99) // era 134
   
   if (cliente.nomeRepresentante) {
-    doc.text(`Representante: ${cliente.nomeRepresentante}`, 14, 140)
+    doc.text(`Representante: ${cliente.nomeRepresentante}`, 14, 105) // era 140
   }
   
   if (cliente.cpfRepresentante) {
-    doc.text(`CPF do Representante: ${cliente.cpfRepresentante}`, 14, 146)
+    doc.text(`CPF do Representante: ${cliente.cpfRepresentante}`, 14, 111) // era 146
   }
   
   // Add items table
   doc.setFontSize(12)
-  doc.text('Itens do Orçamento', 14, 158)
+  doc.text('Itens do Orçamento', 14, 123) // era 158
   
   // Prepare table data
   const tableColumns = [
@@ -104,7 +104,7 @@ export const generatePDF = async (cliente: Cliente, itens: Item[], total: number
   
   // Add the table to the PDF
   autoTable(doc, {
-    startY: 162,
+    startY: 127, // era 162
     head: [tableColumns.map(col => col.header)],
     body: tableRows.map(row => [
       row.quantidade,
@@ -113,7 +113,7 @@ export const generatePDF = async (cliente: Cliente, itens: Item[], total: number
       row.valorTotal
     ]),
     theme: 'striped',
-    headStyles: { fillColor: [25, 118, 210], textColor: 255 },
+    headStyles: { fillColor: [8, 83, 13], textColor: 255 },
     columnStyles: {
       0: { halign: 'center' },
       2: { halign: 'right' },
@@ -125,19 +125,28 @@ export const generatePDF = async (cliente: Cliente, itens: Item[], total: number
   const finalY = (doc as any).lastAutoTable.finalY + 10
   doc.setFontSize(12)
   doc.text(`Total: ${formatCurrency(total)}`, 190, finalY, { align: 'right' })
-  
+
+
   // Add observations
   doc.setFontSize(12)
-  doc.text('Observações:', 14, finalY + 15)
+  doc.text('Pagamento:', 14, finalY + 15)
   
   doc.setFontSize(10)
-  doc.text('Garantia: 90 dias', 14, finalY + 23)
-  doc.text('Execução: até 3 dias úteis após depósito inicial', 14, finalY + 30)
-  doc.text('Este orçamento tem validade de 15 dias', 14, finalY + 37)
+  doc.text('Deposito banco Nubank: 260 - Agência: 0001 - Conta: 56310862-1', 14, finalY + 23)
+  doc.text('Pix CNPJ: 40080991000184', 14, finalY + 30)
+
+  // Add observations
+  doc.setFontSize(12)
+  doc.text('Observações:', 14, finalY + 45)
+  
+  doc.setFontSize(10)
+  doc.text('Garantia: 90 dias', 14, finalY + 53)
+  doc.text('Execução: até 3 dias úteis após depósito inicial', 14, finalY + 60)
+  doc.text('Este orçamento tem validade de 15 dias', 14, finalY + 67)
   
   // Add footer with page number
   doc.setFontSize(8)
-  doc.text('L&M Manutenções - Orçamento Comercial', 105, 285, { align: 'center' })
+  doc.text('LM Manutenções - Orçamento Comercial', 105, 285, { align: 'center' })
   
   // Generate the PDF filename based on client name
   const clientName = cliente.nomeEmpresa.replace(/[^\w\s]/gi, '').trim().replace(/\s+/g, '_').toLowerCase()
