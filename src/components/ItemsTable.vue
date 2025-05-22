@@ -3,7 +3,8 @@ import { ref } from 'vue'
 import { formatCurrency } from '../utils/formatters'
 import type { Item } from '../types'
 
-defineProps<{
+// Use defineProps atribuindo a uma constante para acesso posterior
+const props = defineProps<{
   itens: Item[]
 }>()
 
@@ -44,6 +45,7 @@ const adicionarItem = () => {
 
 // Atualiza um item na lista
 const atualizarItem = (index: number, field: keyof Item, value: string | number) => {
+  // Use a constante props para acessar os itens
   const item = { ...props.itens[index] }
   
   if (field === 'quantidade' || field === 'valorUnitario') {
@@ -110,24 +112,24 @@ const removerItem = (index: number) => {
         
         <!-- Botão Adicionar - ajustado para mobile -->
         <v-col cols="5" sm="2" class="py-1 d-flex align-center justify-end">
-  <v-btn 
-    color="primary" 
-    @click="adicionarItem"
-    :prepend-icon="$vuetify.display.smAndUp ? 'mdi-plus' : undefined"
-    :icon="$vuetify.display.xs ? 'mdi-plus' : undefined"
-    size="small"
-    :class="{'ml-1': $vuetify.display.xs}"
-    :disabled="!novoItem.descricao || novoItem.valorUnitario <= 0"
-  >
-    <span v-if="$vuetify.display.smAndUp">Adicionar</span>
-    <span v-else class="sr-only" style="font-size: 25px">+</span> <!-- Acessibilidade para screen readers -->
-  </v-btn>
-</v-col>
+          <v-btn 
+            color="primary" 
+            @click="adicionarItem"
+            :prepend-icon="$vuetify.display.smAndUp ? 'mdi-plus' : undefined"
+            :icon="$vuetify.display.xs ? 'mdi-plus' : undefined"
+            size="small"
+            :class="{'ml-1': $vuetify.display.xs}"
+            :disabled="!novoItem.descricao || novoItem.valorUnitario <= 0"
+          >
+            <span v-if="$vuetify.display.smAndUp">Adicionar</span>
+            <span v-else class="sr-only" style="font-size: 25px">+</span> <!-- Acessibilidade para screen readers -->
+          </v-btn>
+        </v-col>
       </v-row>
       
       <!-- Tabela de itens com scroll horizontal em mobile -->
       <div class="mobile-scroll-wrapper mt-3">
-        <template v-if="itens.length > 0">
+        <template v-if="props.itens.length > 0">
           <v-table class="item-table" fixed-header>
             <thead>
               <tr>
@@ -139,7 +141,7 @@ const removerItem = (index: number) => {
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(item, index) in itens" :key="index">
+              <tr v-for="(item, index) in props.itens" :key="index">
                 <!-- Quantidade -->
                 <td :class="{'px-1': $vuetify.display.xs}">
                   <v-text-field
@@ -150,7 +152,10 @@ const removerItem = (index: number) => {
                     hide-details
                     min="1"
                     class="mobile-input"
-                    @input="(e: Event) => atualizarItem(index, 'quantidade', (e.target as HTMLInputElement).value)"
+                    @input="(e: Event) => {
+                      const target = e.target as HTMLInputElement;
+                      atualizarItem(index, 'quantidade', target ? target.value : '');
+                    }"
                   ></v-text-field>
                 </td>
                 
@@ -162,7 +167,10 @@ const removerItem = (index: number) => {
                     density="compact"
                     hide-details
                     class="mobile-input"
-                     @input="(e: Event) => atualizarItem(index, 'descricao', e.target.value)"
+                    @input="(e: Event) => {
+                      const target = e.target as HTMLInputElement;
+                      atualizarItem(index, 'descricao', target ? target.value : '');
+                    }"
                   ></v-text-field>
                 </td>
                 
@@ -177,7 +185,10 @@ const removerItem = (index: number) => {
                     min="0"
                     step="0.01"
                     class="text-right mobile-input"
-                     @input="(e: Event) => atualizarItem(index, 'valorUnitario', e.target.value)"
+                    @input="(e: Event) => {
+                      const target = e.target as HTMLInputElement;
+                      atualizarItem(index, 'valorUnitario', target ? target.value : '');
+                    }"
                   ></v-text-field>
                 </td>
                 
