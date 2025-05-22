@@ -47,7 +47,7 @@ export const generatePDF = async (cliente: Cliente, itens: Item[], total: number
   const logoData = reader.result as string
   
   // Add the logo to the PDF
-  doc.addImage(logoData, 'PNG', 75, 0, 80, 60)
+  doc.addImage(logoData, 'PNG', 70, 0, 80, 60)
   
   // Set font size and add company header
   //doc.setFontSize(20)
