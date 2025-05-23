@@ -2,10 +2,12 @@
  * Interface representing a client/customer
  */
 export interface Cliente {
-  nomeEmpresa: string;
-  cnpj: string;
-  nomeRepresentante: string;
-  cpfRepresentante: string;
+  nomeEmpresa: string
+  cnpj: string
+  nomeRepresentante: string
+  cpfRepresentante: string
+  modeloMaquina: string // novo campo
+  marcaMaquina: string  // novo campo
 }
 
 /**

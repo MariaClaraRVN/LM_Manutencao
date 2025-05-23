@@ -40,6 +40,7 @@ const handleCPFInput = (event: Event) => {
 
     <v-card-text class="pa-4">
       <v-row>
+        <!-- Campos existentes -->
         <v-col cols="12" md="6">
           <v-text-field v-model="cliente.nomeEmpresa" label="Nome da Empresa" variant="outlined" density="comfortable"
             @input="updateCliente('nomeEmpresa', cliente.nomeEmpresa)"
@@ -61,6 +62,29 @@ const handleCPFInput = (event: Event) => {
           <v-text-field :value="cliente.cpfRepresentante" label="CPF do Representante" variant="outlined"
             density="comfortable" @update:model-value="(value) => updateCliente('cpfRepresentante', maskCPF(value))"
             placeholder="000.000.000-00"></v-text-field>
+        </v-col>
+
+        <!-- Novos campos de Máquina -->
+        <v-col cols="12" md="6">
+          <v-text-field
+            v-model="cliente.marcaMaquina"
+            label="Marca da Máquina"
+            variant="outlined"
+            density="comfortable"
+            @input="updateCliente('marcaMaquina', cliente.marcaMaquina)"
+            :rules="[v => !!v || 'Marca da máquina é obrigatória']"
+          ></v-text-field>
+        </v-col>
+
+        <v-col cols="12" md="6">
+          <v-text-field
+            v-model="cliente.modeloMaquina"
+            label="Modelo da Máquina"
+            variant="outlined"
+            density="comfortable"
+            @input="updateCliente('modeloMaquina', cliente.modeloMaquina)"
+            :rules="[v => !!v || 'Modelo da máquina é obrigatório']"
+          ></v-text-field>
         </v-col>
       </v-row>
     </v-card-text>

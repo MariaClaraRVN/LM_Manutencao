@@ -11,7 +11,9 @@ const cliente = ref<Cliente>({
   nomeEmpresa: '',
   cnpj: '',
   nomeRepresentante: '',
-  cpfRepresentante: ''
+  cpfRepresentante: '',
+  modeloMaquina: '', // novo campo
+  marcaMaquina: ''   // novo campo
 })
 
 // Dados da lista de itens
