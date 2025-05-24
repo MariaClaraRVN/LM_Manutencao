@@ -67,7 +67,7 @@ const gerarPDF = async () => {
       -->
       <v-card-title class="text-h5 text-sm-h4 d-flex flex-column align-center pa-4 primary white--text">
         <v-img
-          src="/public/LM_Manutencoes.png"
+          src="/public/LM_Manutencao.png"
           alt="L&M Manutenções"
           class="mb-4"
           :width="$vuetify.display.smAndDown ? 150 : 200"

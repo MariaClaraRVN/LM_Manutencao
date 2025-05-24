@@ -15,7 +15,7 @@ export const generatePDF = async (cliente: Cliente, itens: Item[], total: number
 
   // --- Seção de Branding da Empresa ---
   // Carrega e adiciona o logo da empresa
-  const logoUrl = `${window.location.origin}/LM_Manutencoes.png`
+  const logoUrl = `${window.location.origin}/LM_Manutencao.png`
   const response = await fetch(logoUrl)
   const blob = await response.blob()
   const reader = new FileReader()
