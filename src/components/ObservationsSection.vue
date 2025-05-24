@@ -8,7 +8,7 @@
       Observações
     </v-card-title>
     
-    <v-card-text class="pa-2 pa-sm-4">
+    <v-card-text class="pa-2 pa-sm-4 text-left">
       <v-list density="compact">
         <v-list-item prepend-icon="mdi-shield-check">
           <v-list-item-title class="text-body-2 text-sm-body-1">Garantia: 90 dias</v-list-item-title>
@@ -23,7 +23,7 @@
     </v-card-text>
   </v-card>
 </template>
-// ...existing code...
+
 <style scoped>
 .v-card,
 .v-card-title,

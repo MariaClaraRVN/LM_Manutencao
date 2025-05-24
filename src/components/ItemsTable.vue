@@ -65,7 +65,7 @@ const removerItem = (index: number) => {
     <v-card-text class="pa-4">
       <!-- Add new item form -->
       <v-row align="center">
-        <v-col cols="12" sm="2">
+        <v-col cols="12" sm="3">
           <v-text-field
             v-model.number="novoItem.quantidade"
             type="number"
@@ -194,7 +194,7 @@ const removerItem = (index: number) => {
 
 @media (min-width: 600px) {
 .button{
-	max-width:100%;
+	max-width:200%;
  }
 }
 
