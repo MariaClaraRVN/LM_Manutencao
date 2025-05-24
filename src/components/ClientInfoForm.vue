@@ -11,7 +11,7 @@ const emit = defineEmits<{
   'update:cliente': [cliente: Cliente]
 }>()
 
-// Atualiza as informações do cliente e emite o evento de atualização
+// Update client info and emit the update
 const updateCliente = (field: keyof Cliente, value: string) => {
   const updatedCliente = { ...props.cliente, [field]: value }
   emit('update:cliente', updatedCliente)
@@ -37,7 +37,7 @@ const updateCliente = (field: keyof Cliente, value: string) => {
     <v-card-title class="text-h6 primary lighten-1 white--text">
       Dados do Cliente
     </v-card-title>
-
+    
     <v-card-text class="pa-4">
       <v-row>
         <!-- Campos existentes -->
@@ -46,18 +46,18 @@ const updateCliente = (field: keyof Cliente, value: string) => {
             @input="updateCliente('nomeEmpresa', cliente.nomeEmpresa)"
             :rules="[v => !!v || 'Nome da empresa é obrigatório']"></v-text-field>
         </v-col>
-
+        
         <v-col cols="12" md="6">
           <v-text-field :value="cliente.cnpj" label="CNPJ" variant="outlined" density="comfortable"
             @update:model-value="(value) => updateCliente('cnpj', maskCNPJ(value))" placeholder="00.000.000/0000-00"
             :rules="[v => !!v || 'CNPJ é obrigatório']"></v-text-field>
         </v-col>
-
+        
         <v-col cols="12" md="6">
           <v-text-field v-model="cliente.nomeRepresentante" label="Nome do Representante" variant="outlined"
             density="comfortable" @input="updateCliente('nomeRepresentante', cliente.nomeRepresentante)"></v-text-field>
         </v-col>
-
+        
         <v-col cols="12" md="6">
           <v-text-field :value="cliente.cpfRepresentante" label="CPF do Representante" variant="outlined"
             density="comfortable" @update:model-value="(value) => updateCliente('cpfRepresentante', maskCPF(value))"
