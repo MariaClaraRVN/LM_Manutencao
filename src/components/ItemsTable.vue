@@ -91,7 +91,7 @@ const removerItem = (index: number) => {
             color="primary" 
             @click="adicionarItem"
             prepend-icon="mdi-plus"
-            class="ml-2"
+            class="ml-2 button"
             :disabled="!novoItem.descricao"
           >
             Adicionar
@@ -156,3 +156,46 @@ const removerItem = (index: number) => {
     </v-card-text>
   </v-card>
 </template>
+
+// ...existing code...
+<style scoped>
+/* Garante que a tabela não ultrapasse a largura da tela */
+.v-table {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100vw !important;
+  overflow-x: auto !important;
+  display: block !important;
+}
+
+/* Ajusta colunas do formulário para mobile */
+@media (max-width: 600px) {
+  .v-row {
+    gap: 0 !important;
+  }
+  .v-col {
+    flex-basis: 100% !important;
+    max-width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .v-btn {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+}
+
+/* Ajusta campos de texto para nunca ultrapassarem a tela */
+.v-text-field {
+  max-width: 100vw !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+@media (min-width: 600px) {
+.button{
+	max-width:100%;
+ }
+}
+
+</style>

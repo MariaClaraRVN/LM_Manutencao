@@ -80,3 +80,31 @@ const updateCliente = (field: keyof Cliente, value: string) => {
     </v-card-text>
   </v-card>
 </template>
+
+// ...existing code...
+<style scoped>
+/* Garante que o card e seus filhos nunca ultrapassem a largura da tela */
+.v-card,
+.v-card-text,
+.v-card-title,
+.v-row,
+.v-col,
+.v-text-field {
+  box-sizing: border-box !important;
+  max-width: 100vw !important;
+  width: 100% !important;
+  
+}
+
+/* Remove padding lateral em telas pequenas */
+@media (max-width: 600px) {
+  .v-card-text, .v-card-title {
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+  }
+  .v-col {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+</style>
