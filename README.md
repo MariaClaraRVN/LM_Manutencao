@@ -1,25 +1,31 @@
-# ⚡ LM Manutenções – Sistema de Orçamentos
+# 📄 Sistema de Geração de Orçamentos – L⚡M Manutenções
 
-Bem-vindo ao sistema de orçamentos da **LM Manutenções**!  
-Este projeto foi desenvolvido em **Vue 3** com **TypeScript** e **Vite**, proporcionando uma experiência moderna, responsiva e fácil de usar para a criação, edição e exportação de orçamentos comerciais.
-
----
-
-## ✨ Funcionalidades
-
-- Cadastro de cliente com validação de CNPJ e CPF
-- Adição, edição e remoção de itens do orçamento
-- Cálculo automático do valor total
-- Observações automáticas sobre garantia, prazo e validade do orçamento
-- Geração de PDF do orçamento pronto para envio ou impressão
-- Interface totalmente responsiva para desktop, tablet e celulares (iPhone, iPad, Samsung, etc.)
+Este projeto é uma aplicação web desenvolvida em **Vue.js 3** com **Vuetify**, criada para facilitar a geração de orçamentos de forma rápida, responsiva e sem necessidade de backend. Ele permite que usuários preencham dados diretamente na interface e exportem o orçamento como um **PDF formatado e pronto para envio** ao cliente.
 
 ---
 
-## 🚀 Tecnologias Utilizadas
+## 🚀 Funcionalidades
 
-- [Vue 3](https://vuejs.org/) + [TypeScript](https://www.typescriptlang.org/)
-- [Vite](https://vitejs.dev/) – build rápido e hot reload
-- [Vuetify](https://vuetifyjs.com/) – componentes UI responsivos e acessíveis
+- [x] Preenchimento dos dados do cliente (Nome e CNPJ)
+- [x] Inserção dinâmica de itens com:
+  - Quantidade
+  - Descrição
+  - Valor total 
+- [x] Botão para adicionar novos itens
+- [x] Geração de PDF em tempo real com os dados preenchidos
+- [x] Exportação do PDF com layout textual (não imagem)
+- [x] Layout responsivo e amigável (Vuetify / Material Design)
+- [x] Totalmente front-end (funciona sem servidor)
 
 ---
+
+## 🛠 Tecnologias Utilizadas
+
+- **Vue.js 3** – Framework JavaScript progressivo
+- **Vuetify 3** – Biblioteca UI baseada em Material Design
+- **jsPDF** – Geração de arquivos PDF no front-end
+- **jspdf-autotable** – Criação de tabelas dentro do PDF
+- **Vite** – Ferramenta de build e desenvolvimento rápido
+
+---
+
