@@ -2,9 +2,6 @@
 import { ref } from 'vue'
 import type { Item } from '../types'
 
-defineProps<{
-  itens: Item[]
-}>()
 
 const emit = defineEmits<{
   'add-item': [item: Item]
@@ -37,13 +34,17 @@ const adicionarItem = () => {
 }
 
 // Update an item in the list
+const props = defineProps<{
+  itens: Item[]
+}>()
+
 const atualizarItem = (index: number, field: keyof Item, value: string | number) => {
   const item = { ...props.itens[index] }
   
   if (field === 'quantidade') {
     item[field] = typeof value === 'string' ? parseFloat(value) || 0 : value
   } else {
-    item[field] = value as string
+  
   }
   
   emit('update-item', index, item)
@@ -157,7 +158,6 @@ const removerItem = (index: number) => {
   </v-card>
 </template>
 
-// ...existing code...
 <style scoped>
 /* Garante que a tabela não ultrapasse a largura da tela */
 .v-table {

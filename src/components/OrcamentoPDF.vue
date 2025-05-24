@@ -119,6 +119,9 @@ const gerarPDF = async () => {
                 step="0.01"
                 :rules="[v => v > 0 || 'Valor total deve ser maior que zero']"
               ></v-text-field>
+              <div v-if="valorTotal > 0" class="mt-2 text-right font-weight-bold">
+        Valor Total: R$ {{ valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}
+      </div>
             </v-card>
           </v-col>
         </v-row>

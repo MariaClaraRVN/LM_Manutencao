@@ -16,5 +16,5 @@ export interface Cliente {
 export interface Item {
   quantidade: number;
   descricao: string;
-  valorUnitario: number;
+  valorTotal: number;
 }
