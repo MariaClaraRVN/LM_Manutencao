@@ -27,9 +27,11 @@ export const generatePDF = async (cliente: Cliente, itens: Item[], total: number
   doc.addImage(logoData, 'PNG', 58, 0, 100, 35)
 
   // Nome da empresa e título
+  doc.setFont('helvetica', 'bold')
   doc.setFontSize(16)
-  doc.text('Orçamento Comercial', 105, 40, { align: 'center' })
+  doc.text('ORÇAMENTO COMERCIAL', 108, 40, { align: 'center' })
 
+  doc.setFont('helvetica', 'normal') 
   // Data de criação
   const dataAtual = new Date().toLocaleDateString('pt-BR')
   doc.setFontSize(10)
