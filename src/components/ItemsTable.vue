@@ -43,8 +43,10 @@ const atualizarItem = (index: number, field: keyof Item, value: string | number)
   
   if (field === 'quantidade') {
     item[field] = typeof value === 'string' ? parseFloat(value) || 0 : value
+  } else if (field === 'valorTotal') {
+    item[field] = typeof value === 'string' ? parseFloat(value) || 0 : value
   } else {
-  
+    item[field] = value as string
   }
   
   emit('update-item', index, item)
@@ -65,7 +67,7 @@ const removerItem = (index: number) => {
     <v-card-text class="pa-4">
       <!-- Add new item form -->
       <v-row align="center">
-        <v-col cols="12" sm="3">
+        <v-col cols="12" sm="2">
           <v-text-field
             v-model.number="novoItem.quantidade"
             type="number"
@@ -77,7 +79,7 @@ const removerItem = (index: number) => {
           ></v-text-field>
         </v-col>
         
-        <v-col cols="12" sm="8">
+        <v-col cols="12" sm="6">
           <v-text-field
             v-model="novoItem.descricao"
             label="Descrição"
@@ -87,7 +89,20 @@ const removerItem = (index: number) => {
           ></v-text-field>
         </v-col>
         
-        <v-col cols="12" sm="2" class="d-flex align-center">
+        <v-col cols="12" sm="4">
+          <v-text-field
+            v-model.number="novoItem.valorTotal"
+            type="number"
+            label="Valor Unitário (R$) - Opcional"
+            variant="outlined"
+            density="comfortable"
+            min="0"
+            step="0.01"
+            placeholder="0,00"
+          ></v-text-field>
+        </v-col>
+        
+        <v-col cols="12" sm="12" class="d-flex align-center justify-center">
           <v-btn 
             color="primary" 
             @click="adicionarItem"
@@ -106,6 +121,7 @@ const removerItem = (index: number) => {
           <tr>
             <th class="text-left">Qtd</th>
             <th class="text-left">Descrição</th>
+            <th class="text-left">Valor Unit. (R$)</th>
             <th class="text-center">Ações</th>
           </tr>
         </thead>
@@ -133,6 +149,21 @@ const removerItem = (index: number) => {
                 @input="(e: Event) => {
                       const target = e.target as HTMLInputElement;
                       atualizarItem(index, 'descricao', target ? target.value : '');
+                    }"></v-text-field>
+            </td>
+            <td>
+              <v-text-field
+                :value="item.valorTotal || ''"
+                type="number"
+                variant="plain"
+                density="compact"
+                hide-details
+                min="0"
+                step="0.01"
+                placeholder="0,00"
+                @input="(e: Event) => {
+                      const target = e.target as HTMLInputElement;
+                      atualizarItem(index, 'valorTotal', target ? target.value : 0);
                     }"></v-text-field>
             </td>
             <td class="text-center">

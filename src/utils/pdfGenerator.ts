@@ -76,29 +76,55 @@ export const generatePDF = async (cliente: Cliente, itens: Item[], total: number
   doc.setFontSize(12)
   doc.text('Itens do Orçamento', 14, 90)
 
-  // Dados da tabela
-  const tableColumns = [
-    { header: 'Qtd', dataKey: 'quantidade' },
-    { header: 'Descrição', dataKey: 'descricao' }
-  ]
-  const tableRows = itens.map(item => ({
-    quantidade: item.quantidade.toString(),
-    descricao: item.descricao
-  }))
+  // Verifica se algum item tem valor preenchido
+  const hasValues = itens.some(item => item.valorTotal && item.valorTotal > 0)
+  
+  // Dados da tabela - inclui coluna de valor apenas se algum item tiver valor
+  const tableColumns = hasValues 
+    ? [
+        { header: 'Qtd', dataKey: 'quantidade' },
+        { header: 'Descrição', dataKey: 'descricao' },
+        { header: 'Valor Unit. (R$)', dataKey: 'valor' }
+      ]
+    : [
+        { header: 'Qtd', dataKey: 'quantidade' },
+        { header: 'Descrição', dataKey: 'descricao' }
+      ]
+      
+  const tableRows = itens.map(item => {
+    const row: any = {
+      quantidade: item.quantidade.toString(),
+      descricao: item.descricao
+    }
+    
+    if (hasValues) {
+      row.valor = item.valorTotal && item.valorTotal > 0 
+        ? formatCurrency(item.valorTotal) 
+        : '-'
+    }
+    
+    return row
+  })
   
     // Adiciona a tabela ao PDF
   autoTable(doc, {
     startY: 95, // valor menor para subir a tabela
     head: [tableColumns.map(col => col.header)],
-    body: tableRows.map(row => [
-      row.quantidade,
-      row.descricao
-    ]),
+    body: hasValues 
+      ? tableRows.map(row => [row.quantidade, row.descricao, row.valor])
+      : tableRows.map(row => [row.quantidade, row.descricao]),
     theme: 'striped',
     headStyles: { fillColor: [34, 109, 34], textColor: 255 },
-    columnStyles: {
-      0: { halign: 'left' }
-    }
+    columnStyles: hasValues 
+      ? {
+          0: { halign: 'center', cellWidth: 20 },
+          1: { halign: 'left' },
+          2: { halign: 'right', cellWidth: 30 }
+        }
+      : {
+          0: { halign: 'center', cellWidth: 20 },
+          1: { halign: 'left' }
+        }
   })
   
   // Adiciona o valor total
