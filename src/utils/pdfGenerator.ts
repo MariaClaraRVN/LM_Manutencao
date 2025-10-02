@@ -8,12 +8,13 @@ import type { Cliente, Item } from '../types'
  * @param cliente - Informações do cliente
  * @param itens - Lista de itens do orçamento
  * @param total - Valor total do orçamento
+ * @param observacoesPersonalizadas - Observações adicionais personalizadas (opcional)
  */
-export const generatePDF = async (cliente: Cliente, itens: Item[], total: number): Promise<void> => {
+export const generatePDF = async (cliente: Cliente, itens: Item[], total: number, observacoesPersonalizadas?: string): Promise<void> => {
   // Cria um novo documento PDF
   const doc = new jsPDF()
 
-  // --- Seção de Branding da Empresa ---
+  // --- Seção de Marcação da Empresa ---
   // Carrega e adiciona o logo da empresa
   const logoUrl = `${window.location.origin}/LM_Manutencao.png`
   const response = await fetch(logoUrl)
@@ -85,7 +86,7 @@ export const generatePDF = async (cliente: Cliente, itens: Item[], total: number
     descricao: item.descricao
   }))
   
-    // Add the table to the PDF
+    // Adiciona a tabela ao PDF
   autoTable(doc, {
     startY: 95, // valor menor para subir a tabela
     head: [tableColumns.map(col => col.header)],
@@ -100,23 +101,13 @@ export const generatePDF = async (cliente: Cliente, itens: Item[], total: number
     }
   })
   
-  // Add total value
+  // Adiciona o valor total
   const finalY = (doc as any).lastAutoTable.finalY + 12
   doc.setFontSize(12)
   doc.text(`Total: ${formatCurrency(total)}`, 180, finalY, { align: 'right' })
   
-  // Pagamento
-  const pagamentoY = finalY + 5 // subiu a seção de pagamento
-  doc.setFontSize(12)
-  doc.text('Pagamento:', 14, pagamentoY)
-  
-  doc.setFontSize(10)
-  doc.text('Deposito banco Nubank: 260 - Agência: 0001 - Conta: 56310862-1', 14, pagamentoY + 7)
-  doc.text('Pix CNPJ: 40080991000184', 14, pagamentoY + 15)
-  doc.text('Este orçamento tem validade de 15 dias', 14, pagamentoY + 23)
-  
   // Observações
-  const obsY = pagamentoY + 35
+  const obsY = finalY + 10
   doc.setFontSize(12)
   doc.text('Observações:', 14, obsY)
   
@@ -125,14 +116,38 @@ export const generatePDF = async (cliente: Cliente, itens: Item[], total: number
   doc.text('Execução: até 3 dias úteis após depósito inicial', 14, obsY + 15)
   doc.text('Necessário entrada de 50% e restante ao final do serviço', 14, obsY + 23)
   
-  // Footer
+  // Adiciona observações personalizadas se fornecidas
+  let nextY = obsY + 33
+  if (observacoesPersonalizadas && observacoesPersonalizadas.trim()) {
+    // Título das observações adicionais
+    doc.setFontSize(12)
+    doc.text('Observações Adicionais:', 14, nextY)
+    
+    // Conteúdo das observações personalizadas
+    doc.setFontSize(10)
+    const linhas = doc.splitTextToSize(observacoesPersonalizadas, 180)
+    doc.text(linhas, 14, nextY + 8)
+    nextY += 8 + (linhas.length * 6) // Ajusta a posição Y baseado no número de linhas
+  }
+  
+  // Pagamento 
+  const pagamentoY = nextY + 5
+  doc.setFontSize(12)
+  doc.text('Pagamento:', 14, pagamentoY)
+  
+  doc.setFontSize(10)
+  doc.text('Deposito banco Nubank: 260 - Agência: 0001 - Conta: 56310862-1', 14, pagamentoY + 7)
+  doc.text('Pix CNPJ: 40080991000184', 14, pagamentoY + 15)
+  doc.text('Este orçamento tem validade de 15 dias', 14, pagamentoY + 23)
+  
+  // Rodapé
 /*   doc.setFontSize(8)
   doc.text('LM Manutenções - Orçamento Comercial', 105, 285, { align: 'center' }) */
   
-  // Generate the PDF filename based on client name
+  // Gera o nome do arquivo PDF baseado no nome do cliente
   const clientName = cliente.nomeEmpresa.replace(/[^\w\s]/gi, '').trim().replace(/\s+/g, '_').toLowerCase()
   const filename = `orcamento_${clientName}.pdf`
   
-  // Save the PDF
+  // Salva o PDF
   doc.save(filename)
 }

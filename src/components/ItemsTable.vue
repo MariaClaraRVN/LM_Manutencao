@@ -9,14 +9,14 @@ const emit = defineEmits<{
   'update-item': [index: number, item: Item]
 }>()
 
-// New item data
+// Dados do novo item
 const novoItem = ref<Item>({
   quantidade: 1,
   descricao: '',
   valorTotal: 0
 })
 
-// Add a new item to the list
+// Adiciona um novo item à lista
 const adicionarItem = () => {
   if (!novoItem.value.descricao) {
     alert('Por favor, preencha a descrição!')
@@ -25,7 +25,7 @@ const adicionarItem = () => {
   
   emit('add-item', { ...novoItem.value })
   
-  // Reset the form for a new item
+  // Reseta o formulário para um novo item
   novoItem.value = {
     quantidade: 1,
     descricao: '',
@@ -33,7 +33,7 @@ const adicionarItem = () => {
   }
 }
 
-// Update an item in the list
+// Atualiza um item na lista
 const props = defineProps<{
   itens: Item[]
 }>()
@@ -50,7 +50,7 @@ const atualizarItem = (index: number, field: keyof Item, value: string | number)
   emit('update-item', index, item)
 }
 
-// Remove an item from the list
+// Remove um item da lista
 const removerItem = (index: number) => {
   emit('remove-item', index)
 }

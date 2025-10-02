@@ -6,7 +6,7 @@ import ObservationsSection from './ObservationsSection.vue'
 import { generatePDF } from '../utils/pdfGenerator'
 import type { Cliente, Item } from '../types'
 
-// Client information data
+// Dados das informações do cliente
 const cliente = ref<Cliente>({
   nomeEmpresa: '',
   cnpj: '',
@@ -16,28 +16,36 @@ const cliente = ref<Cliente>({
   modeloMaquina: ''
 })
 
-// Items list data
+// Dados da lista de itens
 const itens = ref<Item[]>([])
 
-// Total budget value
+// Valor total do orçamento
 const valorTotal = ref<number>(0)
 
-// Handle adding a new item to the list
+// Observações personalizadas
+const observacoesPersonalizadas = ref<string>('')
+
+// Manipula a adição de um novo item à lista
 const handleAddItem = (item: Item) => {
   itens.value.push(item)
 }
 
-// Handle removing an item from the list
+// Manipula a remoção de um item da lista
 const handleRemoveItem = (index: number) => {
   itens.value.splice(index, 1)
 }
 
-// Handle updating an item in the list
+// Manipula a atualização de um item na lista
 const handleUpdateItem = (index: number, updatedItem: Item) => {
   itens.value[index] = updatedItem
 }
 
-// Generate and download the PDF
+// Manipula atualização das observações personalizadas
+const handleObservationsUpdate = (observations: string) => {
+  observacoesPersonalizadas.value = observations
+}
+
+// Gera e faz download do PDF
 const gerarPDF = async () => {
   if (!cliente.value.nomeEmpresa) {
     alert('Por favor, preencha o nome da empresa!')
@@ -49,7 +57,7 @@ const gerarPDF = async () => {
     return
   }
   
-  await generatePDF(cliente.value, itens.value, valorTotal.value)
+  await generatePDF(cliente.value, itens.value, valorTotal.value, observacoesPersonalizadas.value)
 }
 </script>
 
@@ -117,7 +125,7 @@ const gerarPDF = async () => {
                 density="comfortable"
                 min="0"
                 step="0.01"
-                :rules="[v => v > 0 || 'Valor total deve ser maior que zero']"
+                :rules="[(v: number) => v > 0 || 'Valor total deve ser maior que zero']"
               ></v-text-field>
               <div v-if="valorTotal > 0" class="mt-2 text-right font-weight-bold">
         Valor Total: R$ {{ valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}
@@ -127,7 +135,7 @@ const gerarPDF = async () => {
         </v-row>
         
         <!-- Observations section -->
-        <ObservationsSection />
+        <ObservationsSection @update:observations="handleObservationsUpdate" />
         
         <!-- Generate PDF button -->
         <v-row class="mt-6">
@@ -149,7 +157,6 @@ const gerarPDF = async () => {
   </v-container>
 </template>
 
-// ...existing code...
 <style scoped>
 /* Impede scroll horizontal em qualquer resolução */
 html, body, #app, .v-application, .v-container {

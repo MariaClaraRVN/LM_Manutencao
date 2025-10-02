@@ -11,7 +11,7 @@ const emit = defineEmits<{
   'update:cliente': [cliente: Cliente]
 }>()
 
-// Update client info and emit the update
+// Atualiza informações do cliente e emite a atualização
 const updateCliente = (field: keyof Cliente, value: string) => {
   const updatedCliente = { ...props.cliente, [field]: value }
   emit('update:cliente', updatedCliente)
@@ -81,7 +81,6 @@ const updateCliente = (field: keyof Cliente, value: string) => {
   </v-card>
 </template>
 
-// ...existing code...
 <style scoped>
 /* Garante que o card e seus filhos nunca ultrapassem a largura da tela */
 .v-card,

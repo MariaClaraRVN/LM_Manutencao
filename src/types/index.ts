@@ -1,5 +1,5 @@
 /**
- * Interface representing a client/customer
+ * Interface representando um cliente
  */
 export interface Cliente {
   nomeEmpresa: string
@@ -11,7 +11,7 @@ export interface Cliente {
 }
 
 /**
- * Interface representing a budget item
+ * Interface representando um item do orçamento
  */
 export interface Item {
   quantidade: number;

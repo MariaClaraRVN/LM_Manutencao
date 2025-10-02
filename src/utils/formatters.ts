@@ -1,7 +1,7 @@
 /**
- * Format a number as Brazilian currency (R$)
- * @param value - The number to format
- * @returns Formatted currency string
+ * Formata um número como moeda brasileira (R$)
+ * @param value - O número a ser formatado
+ * @returns String da moeda formatada
  */
 export const formatCurrency = (value: number): string => {
   return new Intl.NumberFormat('pt-BR', {
@@ -11,13 +11,13 @@ export const formatCurrency = (value: number): string => {
 }
 
 /**
- * Apply CNPJ mask to a string value
- * Format: 00.000.000/0000-00
- * @param value - The CNPJ value to mask
- * @returns Masked CNPJ string
+ * Aplica máscara de CNPJ a um valor string
+ * Formato: 00.000.000/0000-00
+ * @param value - O valor do CNPJ a ser mascarado
+ * @returns String do CNPJ mascarado
  */
 export const maskCNPJ = (value: string): string => {
-  // Remove all non-digit characters
+  // Remove todos os caracteres não-numéricos
   const digits = value.replace(/\D/g, '')
   
   if (digits.length <= 2) {
@@ -37,13 +37,13 @@ export const maskCNPJ = (value: string): string => {
 }
 
 /**
- * Apply CPF mask to a string value
- * Format: 000.000.000-00
- * @param value - The CPF value to mask
- * @returns Masked CPF string
+ * Aplica máscara de CPF a um valor string
+ * Formato: 000.000.000-00
+ * @param value - O valor do CPF a ser mascarado
+ * @returns String do CPF mascarado
  */
 export const maskCPF = (value: string): string => {
-  // Remove all non-digit characters
+  // Remove todos os caracteres não-numéricos
   const digits = value.replace(/\D/g, '')
   
   if (digits.length <= 3) {

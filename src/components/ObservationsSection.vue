@@ -1,5 +1,20 @@
 <script setup lang="ts">
-// This component displays the fixed observations about warranty and execution timeframe
+import { ref } from 'vue'
+
+// Este componente exibe as observações fixas sobre garantia e prazo de execução
+// e permite adicionar observações personalizadas
+
+const customObservations = ref('')
+
+// Emite as observações personalizadas para o componente pai
+const emit = defineEmits<{
+  'update:observations': [value: string]
+}>()
+
+// Observa mudanças e emite para o componente pai
+const updateObservations = () => {
+  emit('update:observations', customObservations.value)
+}
 </script>
 
 <template>
@@ -20,6 +35,26 @@
           <v-list-item-title class="text-body-2 text-sm-body-1">Este orçamento tem validade de 15 dias</v-list-item-title>
         </v-list-item>
       </v-list>
+    </v-card-text>
+  </v-card>
+
+  <!-- Custom observations input -->
+  <v-card outlined class="mb-6">
+    <v-card-title class="text-subtitle-1 text-sm-h6 primary lighten-1 white--text pa-3 pa-sm-4">
+      Observações Adicionais
+    </v-card-title>
+    
+    <v-card-text class="pa-2 pa-sm-4">
+      <v-textarea
+        v-model="customObservations"
+        @input="updateObservations"
+        label="Digite observações adicionais (opcional)"
+        placeholder="Ex: Equipamento será testado antes da entrega..."
+        rows="3"
+        variant="outlined"
+        density="comfortable"
+        class="text-body-2"
+      />
     </v-card-text>
   </v-card>
 </template>
